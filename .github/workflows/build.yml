@@ -15,12 +15,17 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         
+      - name: Accept Android SDK Licenses
+        run: yes | sdkmanager --licenses || true
+        
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         
-      # সরাসরি gradle কমান্ড ব্যবহার করা হচ্ছে, gradlew ফাইলের দরকার নেই
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper
+        
       - name: Build with Gradle
-        run: gradle assembleRelease
+        run: chmod +x gradlew && ./gradlew assembleRelease
         
       - name: Upload APK
         uses: actions/upload-artifact@v4
